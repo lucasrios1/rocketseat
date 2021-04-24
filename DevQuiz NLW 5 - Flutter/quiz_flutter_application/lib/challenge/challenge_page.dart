@@ -20,7 +20,8 @@ class _ChallengePageState extends State<ChallengePage> {
   final controller = ChallengeController();
   final pageController = PageController();
 
-  void iniState() {
+  @override
+  initState() {
     pageController.addListener(() {
       controller.currentPage = pageController.page!.toInt() + 1;
     });
@@ -30,7 +31,7 @@ class _ChallengePageState extends State<ChallengePage> {
   void nextPage() {
     if (controller.currentPage < widget.questions.length)
       pageController.nextPage(
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 300),
         curve: Curves.linear,
       );
   }
@@ -52,18 +53,14 @@ class _ChallengePageState extends State<ChallengePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
+              BackButton(),
               ValueListenableBuilder<int>(
                 valueListenable: controller.currentPageNotifier,
                 builder: (context, value, _) => QuestionIndicatorWidget(
                   currentPage: value,
                   length: widget.questions.length,
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -72,9 +69,10 @@ class _ChallengePageState extends State<ChallengePage> {
         physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         children: widget.questions
-            .map(
-              (e) => QuizWidget(question: e, onSelected: onSelected),
-            )
+            .map((e) => QuizWidget(
+                  question: e,
+                  onSelected: onSelected,
+                ))
             .toList(),
       ),
       bottomNavigationBar: SafeArea(
