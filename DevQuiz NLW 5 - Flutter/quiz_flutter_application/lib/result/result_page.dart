@@ -37,7 +37,7 @@ class ResultPage extends StatelessWidget {
                 ),
                 Text.rich(
                   TextSpan(
-                      text: "Você concluiu",
+                      text: "Você concluiu!",
                       style: AppTextStyles.body,
                       children: [
                         TextSpan(
